@@ -1,6 +1,8 @@
-const { app, BrowserWindow } = require('electron')
-// get DB credentials
-const options = require('./options')
+const { app, BrowserWindow, ipcMain } = require('electron')
+
+const models = require('./models')
+const Users = models.user
+const Op = models.Sequelize.Op
 
 // main window
 let mainWindow = null
@@ -23,7 +25,12 @@ app.on('ready', () => {
   })
 })
 
-
-
-
-
+ipcMain.on('create-user', (event, arg) => {
+  const usercreate = Users.create({
+    username: arg.username,
+    fistname: arg.firstname,
+    lastname: arg.lastname,
+    email: arg.email,
+  })
+  mainWindow.loadURL(`file://${__dirname}/index.html`)
+})
