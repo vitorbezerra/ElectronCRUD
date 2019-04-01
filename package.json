@@ -1,0 +1,16 @@
+{
+  "name": "electrondbexample",
+  "version": "1.0.0",
+  "description": "A CRUD example using Electron e Sequelize.",
+  "main": "./app/main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vitor Hugo Bezerra",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^4.1.3",
+    "sequelize": "^5.2.8"
+  }
+}
