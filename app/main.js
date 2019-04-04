@@ -25,12 +25,13 @@ app.on('ready', () => {
   })
 })
 
-ipcMain.on('create-user', (event, arg) => {
-  const usercreate = Users.create({
+ipcMain.on('create', async (event, arg) => {
+  const usercreate = await Users.create({
     username: arg.username,
-    fistname: arg.firstname,
+    firstname: arg.firstname,
     lastname: arg.lastname,
     email: arg.email,
+    t_consumed : 0
   })
   mainWindow.loadURL(`file://${__dirname}/index.html`)
 })
