@@ -10,10 +10,10 @@ let db = {}
 
 fs
   .readdirSync(__dirname)
-  .filter(function(file) {
+  .filter(function (file) {
     return (file.indexOf('.') !== 0) && (file !== 'index.js')
   })
-  .forEach(function(file) {
+  .forEach(function (file) {
     let model = sequelize.import(path.join(__dirname, file))
     if (model)
       db[model.name] = model
