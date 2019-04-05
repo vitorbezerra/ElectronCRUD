@@ -18,7 +18,7 @@ app.on('ready', () => {
   mainWindow.once('ready-to-show', async () => {
     mainWindow.show()
     await list_users()
-  });
+  })
 
   // close the app
   mainWindow.on('closed', () => {
@@ -36,6 +36,17 @@ ipcMain.on('create', async (event, arg) => {
   })
   mainWindow.loadURL(`file://${__dirname}/index.html`)
   await list_users()
+})
+
+ipcMain.on('hello', async (event) => {
+  console.log("tasquete")
+})
+
+
+ipcMain.on('update', async (event, arg) => {
+  const user = await Users.findByPk(arg)
+  mainWindow.loadURL(`file://${__dirname}/update.html`)
+  mainWindow.webContents.send('userupdate', user)
 })
 
 async function list_users() {

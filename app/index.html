@@ -11,6 +11,7 @@
 <body>
 
   <h3 align="center">List Users</h3>
+  <p align="center">One click to edit, two to delete</p>
 
   <table class="table table-hover">
     <thead>
@@ -20,6 +21,8 @@
         <th scope="col">Last Name</th>
         <th scope="col">E-mail</th>
         <th scope="col">Total Consumed</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -34,11 +37,14 @@
   const t_html = document.querySelector('tbody')
   const tr = document.createElement('tr')
   const td = document.createElement('td')
+
   ipcRenderer.on('user-list', (e, users) => {
     let tr = null
     let td = null
     let text_value = null
     let element = null
+    let editbutton = null
+    let deletebutton = null
     users.forEach(element => {
       tr = document.createElement('tr')
       fields = ["username", "firstname", "lastname", "email", "t_consumed"]
@@ -48,9 +54,19 @@
         td.appendChild(text_value)
         tr.appendChild(td)
       })
+      // edit and delete buttons
+      td = document.createElement('td')
+      editbutton = `<button onclick=editItem(value) value=${element.dataValues["username"]} 
+                      type="button" class="btn btn-secondary">Edit</button>`
+      td.innerHTML = editbutton
+      tr.appendChild(td)
       t_html.appendChild(tr)
     })
   })
+
+  function editItem(username) {
+    ipcRenderer.send('update', username)
+  }
 </script>
 
 </html>

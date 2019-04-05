@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Create User</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+</head>
+
+<body>
+    <form>
+        <div class="form-group">
+            <label for="exampleInputEmail1">First Name</label>
+            <input class="form-control" type="text" id="firstname" placeholder="First Name" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Last Name</label>
+            <input class="form-control" type="text" id="lastname" placeholder="Last Name" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Username</label>
+            <input class="form-control" type="text" id="username" placeholder="Username" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Username</label>
+            <input class="form-control" type="float" id="t_consumed" placeholder="Total Consumed" required>
+        </div>
+    </form>
+    <button id="update" class="btn btn-primary btn-lg btn-block">Update Values</button>
+    <br>
+    <div class="form-group">
+        <a role="button" class="btn btn-secondary btn-lg btn-block" href="index.html">Back</a>
+    </div>
+</body>
+
+<script>
+    const { ipcRenderer } = require('electron')
+    let username = document.getElementById("username")
+    let firstname = document.getElementById("firstname")
+    let lastname = document.getElementById("lastname")
+    let email = document.getElementById("email")
+    let t_consumed = document.getElementById("t_consumed")
+    console.log("entrei update")
+
+    ipcRenderer.send('hello')
+
+    ipcRenderer.on('userupdate', (e, users) => {
+        console.log("batata")
+        console.log(user)
+        // username.value = data["username"]
+        // firstname.value = data["firstname"]
+        // lastname.value = data["lastname"]
+        // email.value = data["email"]
+        // t_consumed.value = data["t_consumed"]
+    })
+
+    document.getElementById('update').addEventListener('click', () => {
+        let params = { username: username.value, firstname: firstname.value, lastname: lastname.value, email: email.value, t_consumed: t_consumed.value }
+        ipcRenderer.send('update', params)
+    })
+</script>
+
+</html>
