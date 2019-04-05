@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, Menu } = require('electron')
 
 const models = require('./models')
 const Users = models.user
@@ -17,7 +17,7 @@ app.on('ready', () => {
   // when the app is ready, the main window is showed
   mainWindow.once('ready-to-show', async () => {
     mainWindow.show()
-    await list_users()
+    mainWindow.webContents.once('dom-ready', list_users)
   })
 
   // close the app
@@ -25,11 +25,58 @@ app.on('ready', () => {
     mainWindow = null
   })
 
+  // Build menu from template
+  const mainMenu = Menu.buildFromTemplate(mainMenuTempale)
+  // Insert Menu
+  Menu.setApplicationMenu(mainMenu)
+
 })
 
+// menu items
+
+// create menu template 
+
+const mainMenuTempale = [
+  {
+    label: 'File',
+    submenu: [
+      {
+        label: 'Add User',
+        click() {
+          mainWindow.loadURL(`file://${__dirname}/create.html`)
+        }
+      },
+      {
+        label: 'Quit',
+        click() {
+          app.quit()
+        }
+      }
+    ]
+  }
+]
 
 
-//routes
+// Add developer tools
+
+if (process.env.NODE_ENV !== 'production') {
+  mainMenuTempale.push({
+    label: 'Developer Tools',
+    submenu: [
+      {
+        label: 'Toggle DevTools',
+        click(item, focusedWindow) {
+          focusedWindow.toggleDevTools()
+        }
+      },
+      {
+        role: 'reload'
+      }
+    ]
+  })
+}
+
+// routes
 
 ipcMain.on('go-index', async () => {
   mainWindow.loadURL(`file://${__dirname}/index.html`)
