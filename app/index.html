@@ -38,24 +38,19 @@
     let tr = null
     let td = null
     let text_value = null
-    console.log(users)
-    // for(let element in users){
-    //   console.log(users[0].username)
-    //   tr = document.createElement('tr')
-    //   for (let key in element) {
-    //     console.log(key)
-    //     td = document.createElement('td')
-    //     text_value = document.createTextNode(element[key])
-    //     td.appendChild(text_value)
-    //     tr.appendChild(td)
-    //   }
-    //   t_html.appendChild(tr)      
-    // }
+    let element = null
+    users.forEach(element => {
+      tr = document.createElement('tr')
+      fields = ["username", "firstname", "lastname", "email", "t_consumed"]
+      fields.forEach(key => {
+        td = document.createElement('td')
+        text_value = document.createTextNode(element.dataValues[key])
+        td.appendChild(text_value)
+        tr.appendChild(td)
+      })
+      t_html.appendChild(tr)
+    })
   })
-    // const batata = document.createTextNode("batata")
-    // td.appendChild(batata)
-    // tr.appendChild(td)
-    // t_html.appendChild(tr)
 </script>
 
 </html>

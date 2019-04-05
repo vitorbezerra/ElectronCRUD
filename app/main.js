@@ -17,9 +17,7 @@ app.on('ready', () => {
   // when the app is ready, the main window is showed
   mainWindow.once('ready-to-show', async () => {
     mainWindow.show()
-    const users = await Users.findAll()
-    console.log(users)
-    mainWindow.webContents.send('user-list', users)
+    await list_users()
   });
 
   // close the app
@@ -37,8 +35,13 @@ ipcMain.on('create', async (event, arg) => {
     t_consumed: 0
   })
   mainWindow.loadURL(`file://${__dirname}/index.html`)
+  await list_users()
 })
 
+async function list_users() {
+  const users = await Users.findAll()
+  mainWindow.webContents.send('user-list', users)
+}
 // function list_users(){
 //   const list_user = await Users.findAll()
 
