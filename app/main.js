@@ -17,7 +17,7 @@ app.on('ready', () => {
   // when the app is ready, the main window is showed
   mainWindow.once('ready-to-show', async () => {
     mainWindow.show()
-    mainWindow.webContents.once('dom-ready', list_users)
+    list_users()
   })
 
   // close the app

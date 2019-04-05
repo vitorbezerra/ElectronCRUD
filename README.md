@@ -7,15 +7,12 @@ An example how to make a simple CRUD using Electron and Sequelize
 
 Node, Electron, Sequelite and SQLite
 
-```
-Give examples
-```
-
 ### Installing
 
-Install SQLite on your system then
+Install SQLite on your system then create the database in the root folder and create the table presented in tables.sql
 
 ```
+sqlite3 maindb.db
 npm install
 ```
 
