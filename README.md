@@ -16,7 +16,7 @@ sqlite3 maindb.db
 npm install
 ```
 
-### Runnig 
+### How to Run 
 
 ```
 npm start
