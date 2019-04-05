@@ -26,6 +26,16 @@ app.on('ready', () => {
   })
 
 })
+
+
+
+//routes
+
+ipcMain.on('go-index', async () => {
+  mainWindow.loadURL(`file://${__dirname}/index.html`)
+  mainWindow.webContents.once('dom-ready', list_users)
+})
+
 ipcMain.on('create', async (event, arg) => {
   const usercreate = await Users.create({
     username: arg.username,
@@ -35,33 +45,33 @@ ipcMain.on('create', async (event, arg) => {
     t_consumed: 0
   })
   mainWindow.loadURL(`file://${__dirname}/index.html`)
-  await list_users()
+  mainWindow.webContents.once('dom-ready', list_users)
 })
-
-ipcMain.on('hello', async (event) => {
-  console.log("tasquete")
-})
-
 
 ipcMain.on('update', async (event, arg) => {
-  const user = await Users.findByPk(arg)
   mainWindow.loadURL(`file://${__dirname}/update.html`)
-  mainWindow.webContents.send('userupdate', user)
+  mainWindow.webContents.once('dom-ready', async () => {
+    const user = await Users.findByPk(arg)
+    mainWindow.webContents.send('userupdate', user.dataValues)
+  })
+})
+
+ipcMain.on('updatevalues', async (event, arg) => {
+  let user_update = await Users.update({
+    firstname: arg.firstname, lastname: arg.lastname,
+    email: arg.email, t_consumed: parseFloat(arg.t_consumed)
+  }, { where: { username: arg.username } })
+  mainWindow.loadURL(`file://${__dirname}/index.html`)
+  mainWindow.webContents.once('dom-ready', list_users)
+})
+
+ipcMain.on('destroy-user', async (event, arg) => {
+  const del_user = Users.destroy({ where: { username: arg } })
+  mainWindow.loadURL(`file://${__dirname}/index.html`)
+  mainWindow.webContents.once('dom-ready', list_users)
 })
 
 async function list_users() {
   const users = await Users.findAll()
   mainWindow.webContents.send('user-list', users)
 }
-// function list_users(){
-//   const list_user = await Users.findAll()
-
-// }
-
-// function del(){
-//   const user_delete = await Users.destroy()
-// }
-
-// function update(){
-//   const user_up = await Users.update({username: "batata"}, {where: "id"})
-// }

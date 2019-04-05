@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     t_consumed: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.FLOAT,
       allowNull: false
     },
   }, {

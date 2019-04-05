@@ -25,7 +25,7 @@
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Username</label>
-            <input class="form-control" type="text" id="username" placeholder="Username" required>
+            <input class="form-control" type="text" id="username" placeholder="Username" required readonly>
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Username</label>
@@ -35,7 +35,7 @@
     <button id="update" class="btn btn-primary btn-lg btn-block">Update Values</button>
     <br>
     <div class="form-group">
-        <a role="button" class="btn btn-secondary btn-lg btn-block" href="index.html">Back</a>
+        <button id="return" role="button" class="btn btn-secondary btn-lg btn-block">Back</button>
     </div>
 </body>
 
@@ -46,23 +46,22 @@
     let lastname = document.getElementById("lastname")
     let email = document.getElementById("email")
     let t_consumed = document.getElementById("t_consumed")
-    console.log("entrei update")
 
-    ipcRenderer.send('hello')
-
-    ipcRenderer.on('userupdate', (e, users) => {
-        console.log("batata")
-        console.log(user)
-        // username.value = data["username"]
-        // firstname.value = data["firstname"]
-        // lastname.value = data["lastname"]
-        // email.value = data["email"]
-        // t_consumed.value = data["t_consumed"]
+    ipcRenderer.on('userupdate', (e, data) => {
+        username.value = data["username"]
+        firstname.value = data["firstname"]
+        lastname.value = data["lastname"]
+        email.value = data["email"]
+        t_consumed.value = data["t_consumed"]
     })
 
     document.getElementById('update').addEventListener('click', () => {
         let params = { username: username.value, firstname: firstname.value, lastname: lastname.value, email: email.value, t_consumed: t_consumed.value }
-        ipcRenderer.send('update', params)
+        ipcRenderer.send('updatevalues', params)
+    })
+
+    document.getElementById('return').addEventListener('click', () => {
+        ipcRenderer.send('go-index')
     })
 </script>
 
